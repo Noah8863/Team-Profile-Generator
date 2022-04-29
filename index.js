@@ -6,7 +6,6 @@ const employee = require('./lib/Employee')
 const manager = require('./lib/Manger')
 const engineer = require('./lib/Engineer')
 const intern = require('./lib/Intern')
-const { listenerCount } = require('process')
 
 const roles = ['Manger', 'Engineer', 'Intern']
 
