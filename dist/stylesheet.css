@@ -1,0 +1,18 @@
+.header {
+    position: relative;
+    width: 95%;
+    height: 50px;
+    background-color: rgb(241, 35, 69);
+    text-align: center;
+    justify-content: center;
+    margin: 30px; 
+}
+.col {
+    justify-content: center;
+    margin: 10px;
+    background-color: rgb(65, 97, 241)
+}
+.info {
+    background-color: white;
+    
+}

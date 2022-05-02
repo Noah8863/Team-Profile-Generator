@@ -19,17 +19,50 @@ const questions = [
     {
         type: 'input',
         name: 'name',
-        message: 'Please the name of the new team member',
+        message: 'Please the name of the new team member:',
     },
     {
         type: 'input',
         name: 'id',
-        message: 'Please enter in their ID number'
+        message: 'Please enter in their ID number:'
     },
     {
         type: 'input',
         name: 'email',
-        message: 'Please enter in their email address'
+        message: 'Please enter in their email address:'
+    }
+]
+
+const managerOffice = [
+    {
+        type: 'input',
+        name: 'officeNumber',
+        message: 'Enter in the Managers Office Number:'
+    }
+]
+
+const engineerGitHub = [
+    {
+        type: 'input',
+        name: 'github',
+        message: 'Please enter the engineers github username:'
+    }
+]
+
+const internSchool = [
+    {
+        type: 'input',
+        name: 'school',
+        message: 'Enter in the Interns School they attended:'
+    }
+]
+
+const moreMembers = [
+    {
+        type: 'list',
+        name: 'continue',
+        message: 'Would you like to add more members?',
+        choices: ['Yes', 'No'],
     }
 ]
 
@@ -37,8 +70,34 @@ const generateTeam = () => {
     inquirer
     .prompt(questions)
     .then((responses) => {
-        console.log(responses)
+        if (responses.role === 'Engineer'){
+            inquirer
+            .prompt(engineerGitHub)
+            .then((engineerAns) => {
+                console.log(engineerAns, responses)
+            })
+        }
+        if (responses.role === 'Intern'){
+            inquirer
+            .prompt(internSchool)
+            .then((internAns) => {
+                console.log(internAns, responses)
+                inquirer
+                    .prompt(moreMembers)
+                    .then((response) => {
+                        if (response.contine === 'Yes'){
+                            generateTeam()
+                        }
+                    })
+            })
+        }
+        if (responses.role === 'Manger'){
+            inquirer
+            .prompt(managerOffice)
+            .then((managerAns) => {
+                console.log(managerAns, responses)
+            })
+        }
     })
-
 }
 generateTeam()
