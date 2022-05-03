@@ -1,14 +1,13 @@
 const inquirer = require('inquirer')
 const fs = require('fs')
-//const htmlPage = require('/index')
+//const htmlPage = require('/dist/something')
 
-const employee = require('./lib/Employee')
-const manager = require('./lib/Manger')
-const engineer = require('./lib/Engineer')
-const intern = require('./lib/Intern')
+const Employee = require('./lib/Employee')
+const Manager = require('./lib/Manager')
+const Engineer = require('./lib/Engineer')
+const Intern = require('./lib/Intern')
 
-const roles = ['Manger', 'Engineer', 'Intern']
-
+const roles = ['Manager', 'Engineer', 'Intern']
 const questions = [
     {
         type: 'list',
@@ -33,71 +32,75 @@ const questions = [
     }
 ]
 
-const managerOffice = [
-    {
-        type: 'input',
-        name: 'officeNumber',
-        message: 'Enter in the Managers Office Number:'
-    }
-]
-
-const engineerGitHub = [
-    {
-        type: 'input',
-        name: 'github',
-        message: 'Please enter the engineers github username:'
-    }
-]
-
-const internSchool = [
-    {
-        type: 'input',
-        name: 'school',
-        message: 'Enter in the Interns School they attended:'
-    }
-]
-
-const moreMembers = [
-    {
-        type: 'list',
-        name: 'continue',
-        message: 'Would you like to add more members?',
-        choices: ['Yes', 'No'],
-    }
-]
-
+const team = [];
 const generateTeam = () => {
-    inquirer
+  inquirer
     .prompt(questions)
     .then((responses) => {
-        if (responses.role === 'Engineer'){
-            inquirer
-            .prompt(engineerGitHub)
-            .then((engineerAns) => {
-                console.log(engineerAns, responses)
-            })
-        }
-        if (responses.role === 'Intern'){
-            inquirer
-            .prompt(internSchool)
-            .then((internAns) => {
-                console.log(internAns, responses)
-                inquirer
-                    .prompt(moreMembers)
-                    .then((response) => {
-                        if (response.contine === 'Yes'){
-                            generateTeam()
-                        }
-                    })
-            })
-        }
-        if (responses.role === 'Manger'){
-            inquirer
-            .prompt(managerOffice)
-            .then((managerAns) => {
-                console.log(managerAns, responses)
-            })
-        }
+      inquirer
+        .prompt([
+          {
+            when: () => responses.role === "Manager",
+            type: "input",
+            message: `Enter in ${responses.name}s office number:`,
+            name: "officeNumber",
+          },
+          {
+            when: () => responses.role === "Engineer",
+            type: "input",
+            message: `What is ${responses.name}s Github user name?`,
+            name: "github",
+          },
+
+          {
+            when: () => responses.role === "Intern",
+            type: "input",
+            message: `What school did ${responses.name} attend to?`,
+            name: "school",
+          },
+
+          {
+            type: "confirm",
+            message: "Would you like to add another team member?",
+            name: "addMember",
+          },
+        ])
+
+        .then((responses2) => {
+          if (responses.role === "Manager") {
+            const manager = new Manager(responses.name, responses.id, responses.email, responses.role, responses.officeNumber);
+            team.push(manager);
+          }
+
+          if (responses.role === "Engineer") {
+            const engineer = new Engineer(responses.name, responses.id, responses.email, responses.role, responses.github);
+            team.push(engineer);
+          }
+
+          if (responses.role === "Intern") {
+            const intern = new Intern(responses.name, responses.id, responses.email, responses.role, responses.school);
+            team.push(intern);
+          }
+          if (responses2.addMember) {
+            generateTeam();
+          } else {
+            team.forEach((team) => {
+              console.log(team);
+            });
+            fs.writeFile('../testing.html', team, (err) => {
+              if (err) {
+                return console.log(err)
+              }
+              console.log("Success, team HTML is created!");
+            });
+          }
+        });
     })
-}
-generateTeam()
+    .catch((err) => {
+      if (err) {
+        throw err;
+      }
+    });
+};
+
+generateTeam();
