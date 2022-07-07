@@ -39,7 +39,11 @@
 
   ## How to use this project 
 
-  Open up the terminal, type in "node index" to start the program and follow the questions to create the Team Profile.  
+  Open up the terminal, type in "node index" to start the program and follow the questions to create the Team Profile.
+  
+  # Video Showing How the Program Works:
+  
+  https://drive.google.com/file/d/1yrMaLJCtJDfl7K2WFYrsYz6gvNsHgTBJ/view 
 
   ## Contributing to this project
   Create a merge request and the content will be approved upon review.  
