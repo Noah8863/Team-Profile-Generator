@@ -41,7 +41,7 @@
 
   Open up the terminal, type in "node index" to start the program and follow the questions to create the Team Profile.
   
-  # Video Showing How the Program Works:
+  ### Video Showing How the Program Works:
   
   https://drive.google.com/file/d/1yrMaLJCtJDfl7K2WFYrsYz6gvNsHgTBJ/view 
 
