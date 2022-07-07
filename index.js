@@ -2,7 +2,6 @@ const inquirer = require('inquirer')
 const fs = require('fs')
 const path = require('path')
 
-const Employee = require('./lib/Employee')
 const Manager = require('./lib/Manager')
 const Engineer = require('./lib/Engineer')
 const Intern = require('./lib/Intern')
@@ -13,34 +12,34 @@ const render = require('./lib/htmltemplate')
 
 const roles = ['Manager', 'Engineer', 'Intern']
 const questions = [
-    {
-        type: 'list',
-        name: 'role',
-        message: 'What role would you like to add to the team?',
-        choices: roles
-    },
-    {
-        type: 'input',
-        name: 'name',
-        message: 'Please the name of the new team member:',
-    },
-    {
-        type: 'input',
-        name: 'id',
-        message: 'Please enter in their ID number:'
-    },
-    {
-        type: 'input',
-        name: 'email',
-        message: 'Please enter in their email address:'
-    }
+  {
+    type: 'list',
+    name: 'role',
+    message: 'What role would you like to add to the team?',
+    choices: roles
+  },
+  {
+    type: 'input',
+    name: 'name',
+    message: 'Please the name of the new team member:',
+  },
+  {
+    type: 'input',
+    name: 'id',
+    message: 'Please enter in their ID number:'
+  },
+  {
+    type: 'input',
+    name: 'email',
+    message: 'Please enter in their email address:'
+  }
 ]
 
 const team = [];
 const generateTeam = () => {
   inquirer
     .prompt(questions)
-    .then((responses) => {
+    .then(responses => {
       inquirer
         .prompt([
           {
@@ -70,32 +69,30 @@ const generateTeam = () => {
           },
         ])
 
-        .then((responses2) => {
+        .then(responses2 => {
           if (responses.role === "Manager") {
-            const manager = new Manager(responses.name, responses.id, responses.email, responses.role, responses.officeNumber);
+            const manager = new Manager(responses.name, responses.id, responses.email, responses.role, responses2.officeNumber);
             team.push(manager);
+            // console.log(team)
           }
-
           if (responses.role === "Engineer") {
-            const engineer = new Engineer(responses.name, responses.id, responses.email, responses.role, responses.github);
-            team.push(engineer);
+            const engineer = new Engineer(responses.name, responses.id, responses.email, responses.role, responses2.github);
+            team.push(engineer)
           }
 
           if (responses.role === "Intern") {
-            const intern = new Intern(responses.name, responses.id, responses.email, responses.role, responses.school);
+            const intern = new Intern(responses.name, responses.id, responses.email, responses.role, responses2.school);
             team.push(intern);
           }
           if (responses2.addMember) {
             generateTeam();
           } else {
-            team.forEach((team) => {
-              console.log(team);
-            });
             fs.writeFile(outputPath, render(team), (err) => {
               if (err) {
                 return console.log(err)
               }
-              console.log("Success, team HTML is created!");
+              console.log("\n Success, team HTML is created! \n");
+              // console.log(team)
             });
           }
         });
