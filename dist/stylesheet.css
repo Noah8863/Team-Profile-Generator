@@ -1,18 +1,13 @@
-.header {
-    position: relative;
-    width: 95%;
-    height: 50px;
-    background-color: rgb(241, 35, 69);
-    text-align: center;
-    justify-content: center;
-    margin: 30px; 
+.card-body {
+    background-color: rgb(80, 175, 238);
 }
-.col {
-    justify-content: center;
+.team-heading {
+    background-color:rgb(226, 117, 117);
+}
+.card-header {
+    background-color: rgb(80, 175, 238);
+}
+.card {
     margin: 10px;
-    background-color: rgb(65, 97, 241)
-}
-.info {
-    background-color: white;
-    
+    box-shadow: 5px 10px grey;
 }
